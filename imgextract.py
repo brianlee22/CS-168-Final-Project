@@ -3,14 +3,19 @@ from PIL import Image
 import random
 from torchvision import transforms
 from torch.utils.data import Dataset
+import torch
+from sklearn import preprocessing
 
 
 class COVIDdataset(Dataset): # create COVID dataset class
 
     def __init__(self, img_dirs=[], labels=[], input_size=0):
         self.img_dirs = img_dirs  # image directories
-        self.labels = labels  # image labels
         self.input_size = input_size
+        
+        le = preprocessing.LabelEncoder()
+        targets = le.fit_transform(labels)
+        self.labels = torch.as_tensor(targets)
 
         self.img_names = []
         for img_dir in self.img_dirs:
@@ -44,7 +49,7 @@ class COVIDdataset(Dataset): # create COVID dataset class
         return len(self.img_names)
     
     
-    def split_data(self, percentage):  # split data into train and val by per% train (1 - per%) val
+    def split_data(self, percentage, batch_size):  # split data into train and val by per% train (1 - per%) val
         image_list = []
         index = int(self.__len__() * percentage)
         for i in range(self.__len__()):
@@ -52,6 +57,10 @@ class COVIDdataset(Dataset): # create COVID dataset class
             
         random.shuffle(image_list)  # randomly assort data
 
-        return image_list[:index], image_list[index:]
+        image_datasets = {'train': image_list[:index], 'val': image_list[index:]}
+        return {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4) for x in ['train', 'val']}
+
+
+
 
 
