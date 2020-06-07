@@ -1,18 +1,23 @@
 from imgextract import COVIDdataset 
-from resnet import initialize_resnet50, create_optimizer, train_model
+from deeplearn import initialize_model, create_optimizer, train_model
 from torchvision.models import resnet50
 from torchvision import transforms
 import torch
 import torch.nn as nn
+from argparse import ArgumentParser
 
 
-def __main__():
-    model_ft, input_size = initialize_resnet50()  # initialize model
+def run_model(m_name, n_epochs=25, s_batch=20):
     feature_extract = True  # feature extracting flag
-    batch_size = 20  # batch size for training
+    batch_size = s_batch  # batch size for training
     split_per = .7  # percent split to train and val
-    num_epochs = 25 
-    model_name = "resnet"
+    num_epochs = n_epochs
+    model_name = m_name
+
+    print('Training: {}'.format(model_name.upper()))
+    print()
+
+    model_ft, input_size = initialize_model(model_name)  # initialize model
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")  # use GPU if it exists
     model_ft = model_ft.to(device)  # send model to GPU (or CPU)
 
@@ -24,6 +29,14 @@ def __main__():
     model_ft, hist = train_model(model_ft, dataloaders_dict, criterion, optimizer_ft, device, num_epochs=num_epochs, is_inception=(model_name=="inception"))
 
 
+def __main__():
+   parser = ArgumentParser(description="Create Model For Evaluation of the COVID-19 Dataset.")
+   parser.add_argument("-m", "--model", type=str, required=True, help="Model for use in learning.", dest="m_name")
+   parser.add_argument("-e", "--epochs", type=int, default=25, help="Number of Epochs used in learning.", dest="n_epochs")
+   parser.add_argument("-b", "--batch", type=int, default=20, help="Batch size used in learning.", dest="s_batch")
+
+   args=parser.parse_args()
+   run_model(args.m_name, args.n_epochs, args.s_batch)
 
 
 if '__main__':
