@@ -4,7 +4,7 @@ I have created this repository to host the code for the CS 168 Final Project. As
 
 ### General Info
 
-I have created a deep learning model based off on the [Pytorch Model](https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html#comparison-with-model-trained-from-scratch). This has nost of the info necessary to understand whats going on behind the scenes in this project. The implementation contains a few models (resnet, alexnet, etc.) to use in training and validation sets. The best validation error along with the weights is returned. 
+I have created a deep learning model based off on the [Pytorch Model](https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html). This has nost of the info necessary to understand whats going on behind the scenes in this project. The implementation contains a few models (resnet, alexnet, etc.) to use in training and validation sets. The best validation error along with the weights is returned. 
 
 I have set up and argument parser with the model name, number of epochs, and batch size as arguments (Only model name is required). You can use the help option (-h) for more info. I was able to get 86% validation accuracy for resnet and 81% for alexnet. We can work on other methods prom the paper if necessary or just use an array of models.
 
