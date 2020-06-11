@@ -35,7 +35,7 @@ def __main__():
     parser.add_argument("-e", "--epochs", type=int, default=25, help="Number of Epochs used in learning.", dest="n_epochs")
     parser.add_argument("-b", "--batch", type=int, default=20, help="Batch size used in learning.", dest="s_batch")
     parser.add_argument("-p", "--pretrain", action='store_true', help="Use for the model to be pretrained", default=False, dest='ptrain')
-    parser.add_argument("-s", "--split", type=float, help="Percentage of dta used for training", default=.7, dest='s_per')
+    parser.add_argument("-s", "--split", type=float, help="Percentage of data used for training", default=.7, dest='s_per')
 
 
 
