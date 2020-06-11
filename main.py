@@ -7,17 +7,17 @@ import torch.nn as nn
 from argparse import ArgumentParser
 
 
-def run_model(m_name, n_epochs=25, s_batch=20):
+def run_model(m_name, n_epochs=25, s_batch=20, ptrain=True, s_per=.7):
     feature_extract = True  # feature extracting flag
     batch_size = s_batch  # batch size for training
-    split_per = .7  # percent split to train and val
+    split_per = s_per  # percent split to train and val
     num_epochs = n_epochs
     model_name = m_name
 
     print('Training: {}'.format(model_name.upper()))
     print()
 
-    model_ft, input_size = initialize_model(model_name)  # initialize model
+    model_ft, input_size = initialize_model(model_name, use_pretrained=ptrain)  # initialize model
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")  # use GPU if it exists
     model_ft = model_ft.to(device)  # send model to GPU (or CPU)
 
@@ -30,13 +30,25 @@ def run_model(m_name, n_epochs=25, s_batch=20):
 
 
 def __main__():
-   parser = ArgumentParser(description="Create Model For Evaluation of the COVID-19 Dataset.")
-   parser.add_argument("-m", "--model", type=str, required=True, help="Model for use in learning.", dest="m_name")
-   parser.add_argument("-e", "--epochs", type=int, default=25, help="Number of Epochs used in learning.", dest="n_epochs")
-   parser.add_argument("-b", "--batch", type=int, default=20, help="Batch size used in learning.", dest="s_batch")
+    parser = ArgumentParser(description="Create Model For Evaluation of the COVID-19 Dataset.")
+    parser.add_argument("-m", "--model", type=str, required=True, help="Model for use in learning.\nAvailable models: [resnet, alexnet, vgg, squeezenet, densenet, inception]", dest="m_name")
+    parser.add_argument("-e", "--epochs", type=int, default=25, help="Number of Epochs used in learning.", dest="n_epochs")
+    parser.add_argument("-b", "--batch", type=int, default=20, help="Batch size used in learning.", dest="s_batch")
+    parser.add_argument("-p", "--pretrain", action='store_true', help="Use for the model to be pretrained", default=False, dest='ptrain')
+    parser.add_argument("-s", "--split", type=float, help="Percentage of dta used for training", default=.7, dest='s_per')
 
-   args=parser.parse_args()
-   run_model(args.m_name, args.n_epochs, args.s_batch)
+
+
+
+    args=parser.parse_args()
+    print()
+    print("Model: " + str(args.m_name))
+    print("Num Epochs: " + str(args.n_epochs))
+    print("Batch Size: " + str(args.s_batch))
+    print("Pretrained: " + str(args.ptrain))
+    print("Train, Val: " + "{0:.0%}".format(args.s_per) + ", {0:.0%}".format(1-args.s_per))
+    print()
+    run_model(args.m_name, args.n_epochs, args.s_batch, args.ptrain, args.s_per)
 
 
 if '__main__':
