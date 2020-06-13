@@ -1,4 +1,7 @@
-# CS-168-Final-Project
+#Authors
+Davis Gomes, Brian Lee, Yash Choudhary
+
+## CS-168-Final-Project
 
 I have created this repository to host the code for the CS 168 Final Project. As we go along, this file will be updated.
 
