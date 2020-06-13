@@ -10,7 +10,7 @@ I have set up and argument parser with the model name, number of epochs, and bat
 
 New arguments have been added, namely for pretraining and the split percentage. Setting the -p/--pretrain flag will set the model to be pretrained and -s/--split S_PER requires a float value for the precentage of data used for training.
 
-Let me know if you have any questions about thew code or implementation and I'll try my best to answer, some of it is still a little over my head.
+Let me know if you have any questions about thew code or implementation and I'll try my best to answer!
 
 ### GIT HELP:
 
