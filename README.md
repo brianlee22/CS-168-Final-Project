@@ -1,4 +1,4 @@
-#Authors
+# Authors
 Davis Gomes, Brian Lee, Yash Choudhary
 
 ## CS-168-Final-Project
